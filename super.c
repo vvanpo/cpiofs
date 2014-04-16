@@ -2,10 +2,31 @@
 #include <linux/decompress/generic.h>
 #include "cpiofs.h"
 
+#include "inode.c"
+
+static const struct super_operations cpiofs_s_ops = {
+	.alloc_inode	= cpiofs_alloc_inode,
+/*	.destroy_inode	= cpiofs_destroy_inode,
+
+	.dirty_inode	= cpiofs_dirty_inode,
+	.write_inode	= cpiofs_write_inode,
+	.drop_inode		= cpiofs_drop_inode,
+	.evict_inode	= cpiofs_evict_inode,
+	.put_super		= cpiofs_put_super,
+	.sync_fs		= cpiofs_sync_fs,
+	.freeze_fs		= cpiofs_freeze_fs,
+	.unfreeze_fs	= cpiofs_unfreeze_fs,
+	.statfs			= cpiofs_statfs,
+	.remount_fs		= cpiofs_remount_fs,
+	.umount_begin	= cpiofs_umount_begin,
+
+	.show_options	= cpiofs_show_options,*/
+};
+
 static int cpiofs_fill_super(struct super_block *sb, void *data, int silent)
 {
+	sb->s_op = &cpiofs_s_ops;
 	int error;
-
 	return error;
 }
 
