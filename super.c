@@ -2,11 +2,30 @@
 #include <linux/decompress/generic.h>
 #include "cpiofs.h"
 
+static int cpiofs_fill_super(struct super_block *sb, void *data, int silent)
+{
+	int error;
+
+	return error;
+}
+
+static struct dentry *cpiofs_mount(struct file_system_type *fs_type,
+						int flags, const char *dev_name, void *data)
+{
+	/*
+	 *	mount_nodev instantiates an anonymous superblock by setting s->s_dev
+	 *	using get_anon_bdev(dev_t *).  cpiofs_fill_super is hence left to
+	 *	fill in the fields other than those that sget sets for you:
+	 *		s_list, s_instances, s_id, s_shrink
+	 */
+	return mount_nodev(fs_type, flags, data, cpiofs_fill_super);
+}
+
 static struct file_system_type cpiofs_fs_type = {
 	.name		= "cpiofs",
 	.fs_flags	= 0,
 	.mount		= cpiofs_mount,
-	.kill_sb	= kill_block_super,
+	.kill_sb	= kill_anon_super,
 	.owner		= THIS_MODULE,
 	.next		= NULL,
 };
