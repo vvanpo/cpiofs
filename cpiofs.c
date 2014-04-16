@@ -1,6 +1,13 @@
 
+#include <linux/module.h>
 #include <linux/fs.h>
 #include <linux/decompress/generic.h>
+
+struct dentry *cpiofs_mount(struct file_system_type *fs_type, int flags,
+							const char *dev_name, void *data)
+{
+
+}
 
 static struct file_system_type cpiofs_fs_type = {
 	.name		= "cpiofs",
@@ -10,6 +17,7 @@ static struct file_system_type cpiofs_fs_type = {
 	.owner		= THIS_MODULE,
 	.next		= NULL,
 };
+MODULE_ALIAS_FS("cpiofs");
 
 static int __init init_cpiofs_fs(void)
 {
@@ -22,6 +30,7 @@ static void __exit exit_cpiofs_fs(void)
 }
 
 MODULE_LICENSE("GPL");
+MODULE_AUTHOR("Victor van Poppelen <vvanpo@gmail.com>");
 
 module_init(init_cpiofs_fs)
 module_exit(exit_cpiofs_fs)

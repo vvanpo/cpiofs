@@ -6,7 +6,7 @@ obj-m := cpiofs.o
 else
 # makefile
 
-KDIR ?= /lib/modules/(uname -r)/build
+KDIR ?= /lib/modules/`uname -r`/build
 
 default:
 	$(MAKE) -C $(KDIR) M=$$PWD
@@ -16,6 +16,6 @@ install:
 
 clean:
 	$(MAKE) -C $(KDIR) M=$$PWD clean
-	rm -rf *.o *.ko
+	rm -rf *.o *.mod.c .*.cmd *.ko modules.order
 
 endif
